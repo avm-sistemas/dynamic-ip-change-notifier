@@ -1,0 +1,18 @@
+services:
+  ip-monitor:
+    build: .
+    container_name: ip_monitor
+    restart: always
+    volumes:
+      - ip_data:/data
+    environment:
+      - CHECK_INTERVAL_MINUTES=10
+      - SMTP_HOST=smtp.gmail.com
+      - SMTP_PORT=587
+      - SMTP_USER=seu-email@gmail.com
+      - SMTP_PASS=sua-senha-de-app
+      - EMAIL_FROM=seu-email@gmail.com
+      - EMAIL_TO=destino1@email.com,destino2@email.com
+
+volumes:
+  ip_data:
