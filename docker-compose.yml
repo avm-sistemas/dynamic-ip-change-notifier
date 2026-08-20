@@ -2,17 +2,25 @@ services:
   ip-monitor:
     build: .
     container_name: ip_monitor
-    restart: always
+    restart: unless-stopped
     volumes:
       - ip_data:/data
     environment:
-      - CHECK_INTERVAL_MINUTES=10
+      # Intervalo de checagem em minutos
+      - CHECK_INTERVAL_MINUTES=1440
+
+      # Modo de entrega: 'Smtp' (padrão) ou 'DirectMx'
+      - EMAIL_DELIVERY_MODE=Smtp
+
+      # Obrigatório se EMAIL_DELIVERY_MODE=Smtp
       - SMTP_HOST=smtp.gmail.com
       - SMTP_PORT=587
-      - SMTP_USER=seu-email@gmail.com
-      - SMTP_PASS=sua-senha-de-app
-      - EMAIL_FROM=seu-email@gmail.com
-      - EMAIL_TO=destino1@email.com,destino2@email.com
+      - SMTP_USER=ip-monitor@gmail.com
+      - SMTP_PASS=0123456789abcdef
+
+      # Obrigatório em todos os modos
+      - EMAIL_FROM=ip-monitor@gmail.com
+      - EMAIL_TO=your-mail@gmail.com,another@gmail.com
 
 volumes:
   ip_data:
