@@ -48,21 +48,21 @@ The easiest way to run the application is via `docker-compose`.
 
 ### 1. Environment Variables
   
-| Variable | Description | Default |
+| Variable | Description | Default / Options |
 | --- | --- | --- |
-| CHECK_INTERVAL_MINUTES | Frequency (in minutes) to poll for IP changes. | `10` |
-| SMTP_HOST | Hostname of your SMTP provider. | `smtp.gmail.com` |
-| SMTP_PORT | Port for your SMTP server. | `587` |
-| SMTP_USER | SMTP authentication username/email. | *Required* |
-| SMTP_PASS | SMTP authentication password or App Password. | *Required* |
-| EMAIL_FROM | Sender email address displayed in the alert. | *Required* |
-| EMAIL_TO | Comma-separated list of recipient email addresses. | *Required* |
+| `CHECK_INTERVAL_MINUTES` | Frequency (in minutes) to poll for IP changes. | `10` |
+| `EMAIL_DELIVERY_MODE` | Delivery strategy to use. | `Smtp` or `DirectMx` |
+| `SMTP_HOST` | Hostname of your SMTP provider (Required if mode is `Smtp`). | `smtp.gmail.com` |
+| `SMTP_PORT` | Port for your SMTP server. | `587` |
+| `SMTP_USER` | SMTP authentication username (Required if mode is `Smtp`). | *Optional in DirectMx* |
+| `SMTP_PASS` | SMTP authentication password (Required if mode is `Smtp`). | *Optional in DirectMx* |
+| `EMAIL_FROM` | Sender email address displayed in the alert. | *Required* |
+| `EMAIL_TO` | Comma-separated list of recipient email addresses. | *Required* |
 
 
 ### 2. `docker-compose.yml`
 
 ```yaml
-version: '3.8'
 
 services:
   ip-monitor:
@@ -72,16 +72,25 @@ services:
     volumes:
       - ip_data:/data
     environment:
+      # Intervalo de checagem em minutos
       - CHECK_INTERVAL_MINUTES=10
+
+      # Modo de entrega: 'Smtp' (padrão) ou 'DirectMx'
+      - EMAIL_DELIVERY_MODE=Smtp
+
+      # Obrigatório se EMAIL_DELIVERY_MODE=Smtp
       - SMTP_HOST=smtp.gmail.com
       - SMTP_PORT=587
-      - SMTP_USER=your-email@gmail.com
-      - SMTP_PASS=your-app-password
-      - EMAIL_FROM=your-email@gmail.com
-      - EMAIL_TO=admin1@domain.com,admin2@domain.com
+      - SMTP_USER=seu-email@gmail.com
+      - SMTP_PASS=sua-senha-de-app
+
+      # Obrigatório em todos os modos
+      - EMAIL_FROM=seu-email@gmail.com
+      - EMAIL_TO=destino1@email.com,destino2@email.com
 
 volumes:
   ip_data:
+
 ```
 
 ### 3. Run the container
