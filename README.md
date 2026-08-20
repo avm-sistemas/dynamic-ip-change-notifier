@@ -1,3 +1,5 @@
+[![Docker Image CI](https://github.com/avm-sistemas/dynamic-ip-change-notifier/actions/workflows/docker-image.yml/badge.svg)](https://github.com/avm-sistemas/dynamic-ip-change-notifier/actions/workflows/docker-image.yml)
+
 # 🛡️ Dynamic IP Change Monitor & Notifier
 
 A lightweight, zero-overhead background service built with **.NET 10** and **SQLite** designed to detect public IP address changes and instantly notify a list of email recipients via SMTP.
